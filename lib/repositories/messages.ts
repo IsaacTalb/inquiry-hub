@@ -1,22 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 
-type DashboardData = {
-  tenant: { id: string; name: string };
-  messages: Array<{
-    id: string;
-    provider: "facebook" | "telegram";
-    content: string;
-    received_at: string;
-    shift: "day" | "night";
-  }>;
-  integrations: Array<{
-    id: string;
-    provider: "facebook" | "telegram";
-    external_id: string;
-  }>;
-};
-
-export async function getDashboardData(): Promise<DashboardData | null> {
+export async function getDashboardData() {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return null;
@@ -41,9 +25,5 @@ export async function getDashboardData(): Promise<DashboardData | null> {
     .select("id,provider,external_id")
     .eq("tenant_id", tenant.id);
 
-  return {
-    tenant,
-    messages: (messages ?? []) as DashboardData["messages"],
-    integrations: (integrations ?? []) as DashboardData["integrations"]
-  };
+  return { tenant, messages: messages ?? [], integrations: integrations ?? [] };
 }
