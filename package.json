@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:debug": "next build --debug"
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit"
@@ -16,7 +17,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.475.0",
-    "next": "15.0.4",
+    "next": "15.0.5",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "tailwind-merge": "^2.5.5"
