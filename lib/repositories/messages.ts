@@ -1,6 +1,16 @@
 import { createClient } from "@/lib/supabase/server";
 
-export async function getDashboardData() {
+type Tenant = { id: string; name: string };
+type Message = { id: string; provider: string; content: string; received_at: string; shift: string | null };
+type Integration = { id: string; provider: string; external_id: string };
+
+type DashboardData = {
+  tenant: Tenant;
+  messages: Message[];
+  integrations: Integration[];
+};
+
+export async function getDashboardData(): Promise<DashboardData | null> {
   const supabase = await createClient();
   const { data: auth } = await supabase.auth.getUser();
   if (!auth.user) return null;
@@ -25,5 +35,9 @@ export async function getDashboardData() {
     .select("id,provider,external_id")
     .eq("tenant_id", tenant.id);
 
-  return { tenant, messages: messages ?? [], integrations: integrations ?? [] };
+  return {
+    tenant: tenant as Tenant,
+    messages: (messages ?? []) as Message[],
+    integrations: (integrations ?? []) as Integration[],
+  };
 }
