@@ -14,12 +14,12 @@ export async function POST(req: Request) {
   const receivedAt = new Date(payload.receivedAt ?? Date.now());
 
   const { error } = await supabase.from("messages").insert({
-    tenant_id: tenantId,
+    tenantId,
     provider,
     sender: payload.sender,
     content: payload.content,
-    received_at: receivedAt.toISOString(),
-    raw_payload: payload,
+    receivedAt: receivedAt.toISOString(),
+    rawPayload: payload,
     shift: getShift(receivedAt)
   });
 

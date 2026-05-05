@@ -24,7 +24,7 @@ export async function GET(req: Request) {
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
   const byProvider = data.reduce(
-    (acc: Record<string, number>, row) => ({
+    (acc: Record<string, number>, row: { provider: string; shift: string }) => ({
       ...acc,
       [row.provider]: (acc[row.provider] || 0) + 1
     }),

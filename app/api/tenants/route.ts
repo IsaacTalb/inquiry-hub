@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   if (!auth.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
-  const { data, error } = await supabase.from("tenants").insert({ name: body.name, owner_id: auth.user.id }).select().single();
+  const { data, error } = await supabase.from("tenants").insert({ name: body.name, owner_id: auth.user.id } as any).select().single();
   if (error) return NextResponse.json({ error: error.message }, { status: 400 });
 
   return NextResponse.json(data, { status: 201 });
